@@ -251,7 +251,6 @@ Seed accounts (development only — override with `SEED_*` variables):
 
 | Role     | Email                 | Password        |
 | -------- | --------------------- | --------------- |
-| Admin    | `admin@souq.local`    | `Admin@12345`   |
 | Seller   | `seller@souq.local`   | `Seller@12345`  |
 | Customer | `customer@souq.local` | `Customer@12345`|
 
