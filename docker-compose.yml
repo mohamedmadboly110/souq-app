@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------
+# Local development stack: API -> Neon PostgreSQL
+#
+#   docker compose up --build
+#
+# The API is exposed on http://localhost:4000.
+#
+# The database connection comes from `.env` (via env_file below), so
+# DATABASE_URL / PGSSL are NOT duplicated here — edit `.env` to change
+# the target database (e.g. Neon). `.env` is gitignored, which keeps the
+# connection password out of the repository.
+#
+# A local PostgreSQL service is no longer started; the block is kept
+# commented out below for offline work. To use it, uncomment `db` and
+# the `depends_on` section, then set in `.env`:
+#   DATABASE_URL=postgres://souq:souq_pass@localhost:5432/souq_dev
+#   PGSSL=disable
+# ------------------------------------------------------------------
+services:
+  api:
+    build: .
+    container_name: souq_api
+    env_file:
+      - .env
+    ports:
+      - "4000:4000"
+    command: sh -c "npm run migrate && npm run seed && npm start"
+
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: souq_db
+  #   environment:
+  #     POSTGRES_USER: souq
+  #     POSTGRES_PASSWORD: souq_pass
+  #     POSTGRES_DB: souq_dev
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - souq_pgdata:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U souq -d souq_dev"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 10
+
+# volumes:
+#   souq_pgdata:
